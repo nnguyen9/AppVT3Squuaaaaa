@@ -1,4 +1,5 @@
 require 'http'
+require 'sms-easy'
 
 class UsersController < ApplicationController
 	skip_before_action :verify_authenticity_token
@@ -57,28 +58,28 @@ class UsersController < ApplicationController
 	# 'Pays' the bill and requests money from all participants
 	# PUSH /{phone}/processBills
 	def processBills
-		@user = params[:id]
+		@user = User.find_by_phone(params[:id])
 		@participants = params[:participants]
 		@price = params[:prices]
-		@description = params[:description]
+		@description = params[:descriptions]
 
 		time = Time.new
 		@today = time.strftime("%Y-%m-%d")
 
 		@participants.each_with_index do |part, i|
 			@part = User.find_by_phone(part)
-			body = {
-			  "medium" => "balance",
-			  "payee_id" => @user.cap_id,
-			  "amount" => @price[i],
-			  "transaction_date" => @today,
-			  "status" => "pending",
-			  "description" => @description[i]
-			}
+			# body = {
+			#   "medium" => "balance",
+			#   "payee_id" => @user.cap_id,
+			#   "amount" => @price[i],
+			#   "transaction_date" => @today,
+			#   "status" => "pending",
+			#   "description" => @description[i]
+			# }
 
-
-			rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
-			@body = JSON.parse rawResponse.body
+			# rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
+			# @body = JSON.parse rawResponse.body
+			MessageMailer::messageParticipant(@part, @user, @price[i]).deliver
 		end
 	end
 
