@@ -115,7 +115,7 @@ class UsersController < ApplicationController
 				@body = JSON.parse(rawResponse.body)
 				MessageMailer::messageParticipant(@bills, @user, @part).deliver_now
 
-				render :json => {:body => "Participants messaged!"}, :status => 200
+				render :json => {:body => @body}, :status => 200
 		end
 	end
 
