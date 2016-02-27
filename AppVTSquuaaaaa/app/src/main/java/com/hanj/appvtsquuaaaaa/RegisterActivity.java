@@ -40,31 +40,45 @@ public class RegisterActivity extends Activity {
                 if (firstNameText.getText().toString().trim().equals("")) {
                     firstNameText.setBackgroundColor(Color.BLUE);
                 }
+                else
+                {
+                    firstNameText.setBackgroundColor(Color.parseColor("#8B0000"));
+                }
                 if (lastNameText.getText().toString().trim().equals("")) {
                     lastNameText.setBackgroundColor(Color.BLUE);
                 }
-                if (phoneText.getText().toString().trim().equals("")) {
+                else
+                {
+                    lastNameText.setBackgroundColor(Color.parseColor("#8B0000"));
+                }
+                if (phoneText.getText().toString().trim().equals("") || phoneText.getText().length() < 10) {
                     phoneText.setBackgroundColor(Color.BLUE);
+                }
+                else
+                {
+                    phoneText.setBackgroundColor(Color.parseColor("#8B0000"));
                 }
                 if (capIDText.getText().toString().trim().equals("")) {
                     capIDText.setBackgroundColor(Color.BLUE);
                 }
-                if (passwordText != confirmPasswordText) {
-                    confirmPasswordText.setBackgroundColor(Color.BLUE);
+                else
+                {
+                    capIDText.setBackgroundColor(Color.parseColor("#8B0000"));
                 }
-                /*InputFilter filter = new InputFilter() {
-                    public CharSequence filter(CharSequence source, int start, int end,
-                                               Spanned dest, int dstart, int dend) {
-                        for (int i = start; i < end; i++) {
-                            if (!Character.isLetterOrDigit(source.charAt(i))) {
-                                return "";
-                            }
-                        }
-                        return null;
-                    }
-                };
-                edit.setFilters(new InputFilter[] { filter });
-                */
+                
+                if (passwordText.getText().toString().trim().equals("") || confirmPasswordText.getText().toString().trim().equals("")) {
+                    passwordText.setBackgroundColor(Color.BLUE);
+                    confirmPasswordText.setBackgroundColor(Color.BLUE);
+
+                }
+                else if (passwordText != confirmPasswordText) {
+                    passwordText.setBackgroundColor(Color.parseColor("#8B0000"));
+                    confirmPasswordText.setBackgroundColor(Color.CYAN);
+                }
+                else {
+                    passwordText.setBackgroundColor(Color.parseColor("#8B0000"));
+                    confirmPasswordText.setBackgroundColor(Color.parseColor("#8B0000"));
+                }
             }
         });
     }
