@@ -82,24 +82,40 @@ class UsersController < ApplicationController
 		# 	@body = JSON.parse(rawResponse.body)
 		# 	MessageMailer::messageParticipant(@part, @user, @price[i], @descriptions[i]).deliver
 		# end
-		@bills.each do |bill|
+		if @bills.kind_of?(Array)
+			@bills.each do |bill|
+				@part = User.find_by_phone(bill['part_phone'])
+				body = {
+				  "medium" => "balance",
+				  "payee_id" => @user.cap_id,
+				  "amount" => bill['price'],
+				  "transaction_date" => @today,
+				  "status" => "pending",
+				  "description" => bill['description']
+				}
 
-			@part = User.find_by_phone(bill['part_phone'])
-			body = {
-			  "medium" => "balance",
-			  "payee_id" => @user.cap_id,
-			  "amount" => bill['price'],
-			  "transaction_date" => @today,
-			  "status" => "pending",
-			  "description" => bill['description']
-			}
+				rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
+				@body = JSON.parse(rawResponse.body)
+				MessageMailer::messageParticipant(@bill, @user, @part).deliver
 
-			rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
-			@body = JSON.parse(rawResponse.body)
-			MessageMailer::messageParticipant(@bill, @user, @part).deliver
+				render :json => {:body => "Success!"}, :status => 200
+			end
+		else
+			@part = User.find_by_phone(@bills['part_phone'])
+				body = {
+				  "medium" => "balance",
+				  "payee_id" => @user.cap_id,
+				  "amount" => @bills['price'],
+				  "transaction_date" => @today,
+				  "status" => "pending",
+				  "description" => @bills['description']
+				}
 
-			if rawResponse.
-			render :json => {:body => "invalid user"}, :status => 200
+				rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
+				@body = JSON.parse(rawResponse.body)
+				MessageMailer::messageParticipant(@bills, @user, @part).deliver_now
+
+				render :json => {:body => "Participants messaged!"}, :status => 200
 		end
 	end
 
