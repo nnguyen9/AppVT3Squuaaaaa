@@ -61,7 +61,7 @@ class UsersController < ApplicationController
 		@user = User.find_by_phone(params[:id])
 		@participants = params[:participants]
 		@price = params[:prices]
-		@description = params[:descriptions]
+		@descriptions = params[:descriptions]
 
 		time = Time.new
 		@today = time.strftime("%Y-%m-%d")
@@ -79,7 +79,7 @@ class UsersController < ApplicationController
 
 			# rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
 			# @body = JSON.parse rawResponse.body
-			MessageMailer::messageParticipant(@part, @user, @price[i]).deliver
+			MessageMailer::messageParticipant(@part, @user, @price[i], @descriptions[i]).deliver
 		end
 	end
 
