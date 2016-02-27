@@ -82,6 +82,10 @@ class UsersController < ApplicationController
 		# 	@body = JSON.parse(rawResponse.body)
 		# 	MessageMailer::messageParticipant(@part, @user, @price[i], @descriptions[i]).deliver
 		# end
+		# 
+		headers = {
+			"Content-Type" => "application/json"
+		}
 		if @bills.kind_of?(Array)
 			@bills.each do |bill|
 				@part = User.find_by_phone(bill['part_phone'])
@@ -94,7 +98,7 @@ class UsersController < ApplicationController
 				  "description" => bill['description']
 				}
 
-				rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
+				rawResponse = HTTP.follow_with(headers).post("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
 				@body = JSON.parse(rawResponse.body)
 				MessageMailer::messageParticipant(@bill, @user, @part).deliver
 
@@ -102,17 +106,26 @@ class UsersController < ApplicationController
 			end
 		else
 			@part = User.find_by_phone(@bills['part_phone'])
-				body = {
+				@params = {
 				  "medium" => "balance",
 				  "payee_id" => @user.cap_id,
-				  "amount" => @bills['price'],
+				  "amount" => @bills['price'].to_f,
 				  "transaction_date" => @today,
 				  "status" => "pending",
 				  "description" => @bills['description']
-				}
+				}.to_json
 
-				rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
-				@body = JSON.parse(rawResponse.body)
+				url = "http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers?key=bf0eebcb460b5b6888a7dfb8aaf85b4e"
+
+				request = Net::HTTP::Post.new(url)
+				request.add_field('content-type', 'application/json')
+				request.body = @params
+
+				uri = URI.parse(url)
+				http = Net::HTTP.new(uri.host, uri.port)
+				response = http.request(request)
+				@body = JSON.parse(response.body)
+				
 				MessageMailer::messageParticipant(@bills, @user, @part).deliver_now
 
 				render :json => {:body => @body}, :status => 200
