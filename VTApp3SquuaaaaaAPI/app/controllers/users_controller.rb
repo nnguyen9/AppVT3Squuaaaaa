@@ -56,33 +56,14 @@ class UsersController < ApplicationController
 	end
 
 	# 'Pays' the bill and requests money from all participants
-	# PUSH /{phone}/processBills
+	# POST /{phone}/processBills
 	def processBills
 		@user = User.find_by_phone(params[:id])
 		@bills = params[:bills]
-		# @participants = params[:participants]
-		# @price = params[:prices]
-		# @descriptions = params[:descriptions]
 
 		time = Time.new
 		@today = time.strftime("%Y-%m-%d")
 
-		# @participants.each_with_index do |part, i|
-		# 	@part = User.find_by_phone(part)
-		# 	body = {
-		# 	  "medium" => "balance",
-		# 	  "payee_id" => @user.cap_id,
-		# 	  "amount" => @price[i],
-		# 	  "transaction_date" => @today,
-		# 	  "status" => "pending",
-		# 	  "description" => @description[i]
-		# 	}
-
-		# 	rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
-		# 	@body = JSON.parse(rawResponse.body)
-		# 	MessageMailer::messageParticipant(@part, @user, @price[i], @descriptions[i]).deliver
-		# end
-		# 
 		headers = {
 			"Content-Type" => "application/json"
 		}
@@ -96,13 +77,20 @@ class UsersController < ApplicationController
 				  "transaction_date" => @today,
 				  "status" => "pending",
 				  "description" => bill['description']
-				}
+				}.to_json
 
-				rawResponse = HTTP.follow_with(headers).post("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
-				@body = JSON.parse(rawResponse.body)
-				MessageMailer::messageParticipant(@bill, @user, @part).deliver
+				url = "http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers?key=bf0eebcb460b5b6888a7dfb8aaf85b4e"
 
-				render :json => {:body => "Success!"}, :status => 200
+				request = Net::HTTP::Post.new(url)
+				request.add_field('content-type', 'application/json')
+				request.body = @params
+
+				uri = URI.parse(url)
+				http = Net::HTTP.new(uri.host, uri.port)
+				response = http.request(request)
+				@body = JSON.parse(response.body)
+
+				render :json => {:body => "Participants messaged!"}, :status => 200
 			end
 		else
 			@part = User.find_by_phone(@bills['part_phone'])
@@ -125,10 +113,10 @@ class UsersController < ApplicationController
 				http = Net::HTTP.new(uri.host, uri.port)
 				response = http.request(request)
 				@body = JSON.parse(response.body)
-				
+
 				MessageMailer::messageParticipant(@bills, @user, @part).deliver_now
 
-				render :json => {:body => @body}, :status => 200
+				render :json => {:body => "Participants messaged!"}, :status => 200
 		end
 	end
 
