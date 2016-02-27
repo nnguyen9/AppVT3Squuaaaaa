@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:background="#8B0000">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/firstNameText"
+            android:hint="First Name"
+            android:digits= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:textColor="#FFFFFF"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Last Name"
+            android:digits= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:ems="10"
+            android:id="@+id/lastNameText"
+            android:layout_below="@+id/firstNameText"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/passwordText"
+            android:hint="Password"
+            android:layout_marginTop="33dp"
+            android:layout_below="@+id/capIDText"
+            android:layout_alignStart="@+id/confirmPasswordText"
+            android:textColor="#C0C0C0"
+            android:layout_alignEnd="@+id/capIDText" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/confirmPasswordText"
+            android:hint="Confirm Password"
+            android:layout_below="@+id/passwordText"
+            android:layout_alignStart="@+id/capIDText"
+            android:textColor="#C0C0C0"
+            android:layout_alignEnd="@+id/capIDText" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:id="@+id/registerButton"
+            android:background="#CD5C5C"
+            android:textSize="17dp"
+            android:textColor="#FFFAFA"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/capIDText"
+            android:hint="Capital One ID Number"
+            android:digits= "123"
+            android:layout_below="@+id/phoneText"
+            android:layout_alignStart="@+id/phoneText"
+            android:textColor="#FFFFFF"
+            android:layout_alignEnd="@+id/phoneText" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:ems="10"
+            android:id="@+id/phoneText"
+            android:hint="Phone Number"
+            android:layout_below="@+id/lastNameText"
+            android:layout_alignStart="@+id/lastNameText"
+            android:textColor="#FFFFFF"
+            android:layout_alignEnd="@+id/firstNameText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Random Title"
+            android:id="@+id/textView"
+            android:textSize="50dp"
+            android:layout_marginTop="33dp"
+            android:textColor="#DB7093"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/firstNameText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Sign up"
+            android:id="@+id/textView2"
+            android:textSize="35dp"
+            android:textColor="#FFFFF0"
+            android:layout_below="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="37dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
