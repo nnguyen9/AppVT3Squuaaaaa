@@ -65,7 +65,7 @@ public class RegisterActivity extends Activity {
                 {
                     capIDText.setBackgroundColor(Color.parseColor("#8B0000"));
                 }
-                
+
                 if (passwordText.getText().toString().trim().equals("") || confirmPasswordText.getText().toString().trim().equals("")) {
                     passwordText.setBackgroundColor(Color.BLUE);
                     confirmPasswordText.setBackgroundColor(Color.BLUE);
