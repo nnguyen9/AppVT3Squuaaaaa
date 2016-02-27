@@ -1,5 +1,5 @@
 class MessageMailer < ApplicationMailer
-	def messageParticipant(part, user, price, description)
+	def messageParticipant(bill, user, part)
 
 		# SMSEasy will use actionmailer's default configuration, which can be overriden if needed:
 		ActionMailer::Base.smtp_settings = {
@@ -18,7 +18,7 @@ class MessageMailer < ApplicationMailer
 		# Optionally override the carries list using your own data file.
 		# SMSEasy::Client.configure(YAML.load(...))
 
-		@body = "$#{price} has been transferred to #{user.first_name} for: #{description}!"
+		@body = "$#{price} has been transferred to #{user.first_name} for: #{bill['description']}!"
 
 		# Create the client
 		easy = SMSEasy::Client.new

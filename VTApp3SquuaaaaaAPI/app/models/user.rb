@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 	attr_accessor :password
 
 	def add_cap_id(cap_id)
-		rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e"})
+		rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e"}, :type => 'Checking')
 		@body = JSON.parse rawResponse.body
 		self.cap_id = @body[cap_id]['_id']
 	end

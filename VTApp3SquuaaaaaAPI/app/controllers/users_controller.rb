@@ -59,27 +59,43 @@ class UsersController < ApplicationController
 	# PUSH /{phone}/processBills
 	def processBills
 		@user = User.find_by_phone(params[:id])
-		@participants = params[:participants]
-		@price = params[:prices]
-		@descriptions = params[:descriptions]
+		@bills = params[:bills]
+		# @participants = params[:participants]
+		# @price = params[:prices]
+		# @descriptions = params[:descriptions]
 
 		time = Time.new
 		@today = time.strftime("%Y-%m-%d")
 
-		@participants.each_with_index do |part, i|
-			@part = User.find_by_phone(part)
-			# body = {
-			#   "medium" => "balance",
-			#   "payee_id" => @user.cap_id,
-			#   "amount" => @price[i],
-			#   "transaction_date" => @today,
-			#   "status" => "pending",
-			#   "description" => @description[i]
-			# }
+		# @participants.each_with_index do |part, i|
+		# 	@part = User.find_by_phone(part)
+		# 	body = {
+		# 	  "medium" => "balance",
+		# 	  "payee_id" => @user.cap_id,
+		# 	  "amount" => @price[i],
+		# 	  "transaction_date" => @today,
+		# 	  "status" => "pending",
+		# 	  "description" => @description[i]
+		# 	}
 
-			# rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
-			# @body = JSON.parse rawResponse.body
-			MessageMailer::messageParticipant(@part, @user, @price[i], @descriptions[i]).deliver
+		# 	rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
+		# 	@body = JSON.parse(rawResponse.body)
+		# 	MessageMailer::messageParticipant(@part, @user, @price[i], @descriptions[i]).deliver
+		# end
+		@bills.each do |bill|
+			@part = User.find_by_phone(bill['part_phone'])
+			body = {
+			  "medium" => "balance",
+			  "payee_id" => @user.cap_id,
+			  "amount" => bill['price'],
+			  "transaction_date" => @today,
+			  "status" => "pending",
+			  "description" => bill['description']
+			}
+
+			rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
+			@body = JSON.parse(rawResponse.body)
+			MessageMailer::messageParticipant(@bill, @user, @part).deliver
 		end
 	end
 
