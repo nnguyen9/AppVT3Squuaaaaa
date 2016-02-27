@@ -83,6 +83,7 @@ class UsersController < ApplicationController
 		# 	MessageMailer::messageParticipant(@part, @user, @price[i], @descriptions[i]).deliver
 		# end
 		@bills.each do |bill|
+
 			@part = User.find_by_phone(bill['part_phone'])
 			body = {
 			  "medium" => "balance",
@@ -96,6 +97,9 @@ class UsersController < ApplicationController
 			rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts/#{@part.cap_id}/transfers", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :body => body})
 			@body = JSON.parse(rawResponse.body)
 			MessageMailer::messageParticipant(@bill, @user, @part).deliver
+
+			if rawResponse.
+			render :json => {:body => "invalid user"}, :status => 200
 		end
 	end
 
