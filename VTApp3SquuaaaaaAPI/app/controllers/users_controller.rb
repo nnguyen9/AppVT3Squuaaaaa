@@ -1,5 +1,6 @@
 require 'http'
 require 'sms-easy'
+require 'net/http'
 
 class UsersController < ApplicationController
 	skip_before_action :verify_authenticity_token
