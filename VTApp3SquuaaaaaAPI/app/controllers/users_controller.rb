@@ -60,7 +60,7 @@ class UsersController < ApplicationController
 	# POST users/{phone}/processBills
 	def processBills
 		@user = User.find_by_phone(params[:id])
-		@bills = JSON.parse(request.body.read)
+		@bills = JSON.parse(params[:_json])
 
 		time = Time.new
 		@today = time.strftime("%Y-%m-%d")
