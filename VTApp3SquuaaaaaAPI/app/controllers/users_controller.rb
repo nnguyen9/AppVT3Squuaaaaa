@@ -61,6 +61,7 @@ class UsersController < ApplicationController
 	def processBills
 		@user = User.find_by_phone(params[:id])
 		@bills = JSON.parse(params[:_json])
+		# @bills = JSON.parse(request.body.read)
 
 		time = Time.new
 		@today = time.strftime("%Y-%m-%d")

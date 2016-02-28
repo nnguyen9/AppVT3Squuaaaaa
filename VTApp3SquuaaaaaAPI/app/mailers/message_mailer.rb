@@ -24,10 +24,10 @@ class MessageMailer < ApplicationMailer
 		easy = SMSEasy::Client.new
 
 		# Deliver a simple message.
-			# mail(to: req.email, 
-			# 		 body: @body, 
-			# 		 content_type: "text/html", 
-			# 		 subject: "Transfer made!")
+			mail(to: "newyearbaby96@gmail.com", 
+					 body: @body, 
+					 content_type: "text/html", 
+					 subject: "Transfer made!")
 			easy.deliver(part.phone, 'at&t', @body)
 		# To set a custom from e-mail per SMS message:
 		# easy.deliver("5551234567", "verizon", "Sup.", :from => "bob@test.com")
