@@ -29,8 +29,8 @@ import android.widget.TextView;
  * Created by Jinwoo on 2/27/2016.
  */
 public class ItemlistActivity extends Activity {
-    int numberOfPeople = 13;    // whatever number of items
-    int numberOfItem = 15;
+    int numberOfPeople = 3;    // whatever number of items
+    int numberOfItem = 4;
     LinearLayout lo;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class ItemlistActivity extends Activity {
 
         ScrollView sv = (ScrollView) findViewById(R.id.scrollView);
         lo = (LinearLayout) findViewById(R.id.linearLayout);
+        sv.setBackgroundColor(0xFF00ceb6);
 
         for (int i = 0; i < numberOfItem; i++)               // adding i number of items on the list\
             lo.addView(addItemToList(i, "Item" + i, 9.99));
@@ -73,7 +74,7 @@ public class ItemlistActivity extends Activity {
             slotContent.setGravity(Gravity.CENTER_VERTICAL);
             slotContent.setOrientation(LinearLayout.HORIZONTAL);
             itemSlot.addView(slotContent);
-            slotContent.setBackgroundColor(0xFF00ceb6);
+
 
             TextView itemName = new TextView(this);
             itemName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
