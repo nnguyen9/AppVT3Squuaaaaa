@@ -10,7 +10,53 @@ class User < ActiveRecord::Base
 	def add_cap_id(cap_id)
 		rawResponse = HTTP.get("http://api.reimaginebanking.com/accounts", :params => {:key => "bf0eebcb460b5b6888a7dfb8aaf85b4e", :type => "Checking"})
 		@body = JSON.parse rawResponse.body
-		self.cap_id = @body[cap_id]['_id']
+		if cap_id < @body.length
+			self.cap_id = @body[cap_id]['_id']
+		else
+			@params = {
+			  "first_name" => self.first_name,
+			  "last_name" => self.last_name,
+			  "address" => {
+			    "street_number" => "VT",
+			    "street_name" => "Torg",
+			    "city" => "Blacksburg",
+			    "state" => "VA",
+			    "zip" => "24061"
+			  }
+			}.to_json
+
+			url = "http://api.reimaginebanking.com/customers?key=bf0eebcb460b5b6888a7dfb8aaf85b4e"
+
+			request = Net::HTTP::Post.new(url)
+			request.add_field('content-type', 'application/json')
+			request.body = @params
+
+			uri = URI.parse(url)
+			http = Net::HTTP.new(uri.host, uri.port)
+			response = http.request(request)
+			@body = JSON.parse(response.body)
+			@customer_id = @body['objectCreated']['_id']
+
+			@params = {
+			  "type" => "Checking",
+			  "nickname" => "#{self.first_name}\'s Checking",
+			  "rewards" => 40000,
+			  "balance" => 50000
+			}.to_json
+
+			url = "http://api.reimaginebanking.com/customers/#{@customer_id}/accounts?key=bf0eebcb460b5b6888a7dfb8aaf85b4e"
+
+			request = Net::HTTP::Post.new(url)
+			request.add_field('content-type', 'application/json')
+			request.body = @params
+
+			uri = URI.parse(url)
+			http = Net::HTTP.new(uri.host, uri.port)
+			response = http.request(request)
+			@body = JSON.parse(response.body)
+
+			self.cap_id = @body['objectCreated']['_id']
+		end
 	end
 
 	# Encrypts and sets password
