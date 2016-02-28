@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 		@user = User.find_by_phone(params[:phone])
 		if @user == nil
 			@user = User.new(query_param)
+
 			@user.add_cap_id(params[:cap_id].to_i - 1)
 
 			@user.encrypt_password(params[:password])
@@ -60,7 +61,8 @@ class UsersController < ApplicationController
 	# POST users/{phone}/processBills
 	def processBills
 		@user = User.find_by_phone(params[:id])
-		@bills = params[:bills]
+		@bills = JSON.parse(params[:_json])
+		# @bills = JSON.parse(request.body.read)
 
 		time = Time.new
 		@today = time.strftime("%Y-%m-%d")
