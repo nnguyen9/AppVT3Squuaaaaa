@@ -86,6 +86,7 @@ public class ItemlistActivity extends Activity implements View.OnClickListener {
             ArrayList<Button> buttons = new ArrayList<Button>();
             for (User user : LocalProfile.getOtherUsers()) {
                 Button b = addItemToHorizontalList(user.getFirst_name().substring(0, 1) + user.getLast_name().substring(0, 1), item, price, user.getPhone(), itemSlot);
+                b.getBackground().setAlpha(150);
                 slotContent.addView(b);
                 buttons.add(b);
             }
