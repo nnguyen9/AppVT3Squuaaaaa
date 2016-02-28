@@ -29,7 +29,7 @@ public class DivitServerAccess {
         // Turn on logging for the http calls in retrofit
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         // set your desired log level to body
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
         OkHttpClient httpClient = new OkHttpClient();
         // add your other interceptors …
         // add logging as last interceptor
@@ -46,21 +46,5 @@ public class DivitServerAccess {
 
     public static DivitServer getServer() {
         return server;
-    }
-
-    public static List<User> getAllUsers() {
-        if (server == null) {
-            throw new IllegalStateException("Divit Server not initialized yet");
-        }
-
-        Call<List<User>> getUsersCall = server.getUsers();
-        List<User> inputCourse = null;
-        try {
-            inputCourse = getUsersCall.execute().body();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return inputCourse;
     }
 }

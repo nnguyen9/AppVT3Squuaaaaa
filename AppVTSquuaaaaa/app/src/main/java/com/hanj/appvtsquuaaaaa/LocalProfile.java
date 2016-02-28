@@ -59,7 +59,7 @@ public class LocalProfile {
         LocalProfile.otherUsers = otherUsers;
     }
 
-    public static void saveSettings() {
+    public static void loadSettings() {
         settings = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         LocalProfile.nameFirst = settings.getString("first", "");
@@ -67,7 +67,7 @@ public class LocalProfile {
         LocalProfile.phone = settings.getString("phone", "");
     }
 
-    public static void loadSettings() {
+    public static void saveSettings() {
         SharedPreferences.Editor settingsEditor = settings.edit();
 
         settingsEditor.putString("first", nameFirst);
