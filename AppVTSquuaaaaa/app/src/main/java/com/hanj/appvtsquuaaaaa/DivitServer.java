@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit.Call;
+import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.POST;
@@ -35,12 +36,12 @@ public interface DivitServer {
     );
 
     @Headers({
-            "Content-type: application/json"
+            "Content-Type: application/json"
     })
-    @POST("users/{id}/processBills")
-    Call<String> processBills(
+    @POST("users/{id}/processBills.json")
+    Call<Void> processBills(
             @Path("id") String phone,
-            @Query("bills") String billsJson
+            @Body String billsJson
     );
 
 }

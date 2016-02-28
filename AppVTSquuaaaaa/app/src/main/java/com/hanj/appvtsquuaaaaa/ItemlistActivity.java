@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -59,29 +60,9 @@ public class ItemlistActivity extends Activity implements View.OnClickListener {
         new GetAllUsersTask().execute();
     }
 
-    private HorizontalScrollView addItemToList(int n, String item, double price){
+    private HorizontalScrollView addItemToList(String item, double price){
         HorizontalScrollView itemSlot = new HorizontalScrollView(this);     // Creating Horizontal scroll view
-        itemSlot.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-
-
-        if(n == -1) {                                   // submit btn
-            RelativeLayout relativeLayout = new RelativeLayout(this);
-            relativeLayout.setVerticalGravity(Gravity.CENTER_HORIZONTAL);
-            relativeLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            itemSlot.addView(relativeLayout);
-
-            Button btn = new Button(this);
-            btn.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            btn.setBackgroundColor(Color.GREEN);
-            btn.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-            btn.setText(item);
-            submitId = findId();
-            btn.setId(submitId);
-            btn.setOnClickListener(this);
-            relativeLayout.addView(btn);
-        }
-        else {                                          // items btn
+        itemSlot.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));         // items btn
             LinearLayout slotContent = new LinearLayout(this);                  // Creating a Horizontal layout
             slotContent.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             slotContent.setGravity(Gravity.CENTER_VERTICAL);
@@ -104,7 +85,8 @@ public class ItemlistActivity extends Activity implements View.OnClickListener {
             slotContent.addView(itemPrice);
             ArrayList<Button> buttons = new ArrayList<Button>();
             for (User user : LocalProfile.getOtherUsers()) {
-                Button b = addItemToHorizontalList(user.getFirst_name().substring(0, 1) + user.getLast_name().substring(0, 1));
+                Button b = addItemToHorizontalList(user.getFirst_name().substring(0, 1) + user.getLast_name().substring(0, 1), item, price, user.getPhone(), itemSlot);
+                b.getBackground().setAlpha(150);
                 slotContent.addView(b);
                 buttons.add(b);
             }
@@ -114,27 +96,28 @@ public class ItemlistActivity extends Activity implements View.OnClickListener {
             row.setMembers(buttons);
 
             rowItemses.add(row);
-        }
 
         return itemSlot;
     }
 
-    static int id = 1;
-
-    // Returns a valid id that isn't in use
-    public int findId(){
-        View v = findViewById(id);
-        while (v != null){
-            v = findViewById(++id);
-        }
-        return id++;
-    }
-
-    private Button addItemToHorizontalList(String person){
+    private Button addItemToHorizontalList(String person, final String desc, final double price, final String phone, final View ver){
         Button btn = new Button(this);
         btn.setLayoutParams(new LinearLayout.LayoutParams(200, 200));
         btn.offsetLeftAndRight(5);
         btn.setText(person);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bill b = new Bill();
+                b.setPart_phone(phone);
+                b.setDescription(desc);
+                b.setPrice(price);
+
+                ver.setVisibility(View.GONE);
+
+                new SubmitBillsTask(b.getJSONObject().toString()).execute();
+            }
+        });
         return btn;
     }
 
@@ -158,7 +141,7 @@ public class ItemlistActivity extends Activity implements View.OnClickListener {
 
             JSONArray billsArray = new JSONArray();
             for (int i = 0; i < bills.size(); i++) {
-                if (!bills.get(i).getPart_phone().equals("")) {
+                if (bills.get(i).getPart_phone() != null) {
                     billsArray.put(bills.get(i).getJSONObject());
                 }
             }
@@ -202,7 +185,7 @@ public class ItemlistActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private class SubmitBillsTask extends AsyncTask<Void, Void, String> {
+    private class SubmitBillsTask extends AsyncTask<Void, Void, Boolean> {
         String jsonBills;
 
         public SubmitBillsTask(String bil) {
@@ -210,21 +193,24 @@ public class ItemlistActivity extends Activity implements View.OnClickListener {
         }
 
         @Override
-        protected String doInBackground(Void... params) {
-            Call<String> billCall = server.processBills(LocalProfile.getPhone(), jsonBills);
-            String body = "";
+        protected Boolean doInBackground(Void... params) {
+            Call<Void> billCall = server.processBills(LocalProfile.getPhone(), jsonBills);
+            boolean success = false;
             try {
-                body = billCall.execute().body();
+                success = billCall.execute().isSuccess();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return body;
+            return success;
         }
 
         @Override
-        protected void onPostExecute(String body) {
-            Toast.makeText(ItemlistActivity.this, body, Toast.LENGTH_LONG);
+        protected void onPostExecute(Boolean body) {
+            if (body)
+                Toast.makeText(ItemlistActivity.this, "Participant messaged!", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(ItemlistActivity.this, "Something went wrong :(", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -245,7 +231,7 @@ public class ItemlistActivity extends Activity implements View.OnClickListener {
         @Override
         protected void onPostExecute(List<User> users) {
             if (users == null) {
-                Toast.makeText(ItemlistActivity.this, "Error getting group!", Toast.LENGTH_LONG);
+                Toast.makeText(ItemlistActivity.this, "Error getting group!", Toast.LENGTH_LONG).show();
             } else {
                 numberOfPeople = users.size() - 1;
 
@@ -260,7 +246,7 @@ public class ItemlistActivity extends Activity implements View.OnClickListener {
 
                 ScrollView sv = (ScrollView) findViewById(R.id.scrollView);
                 lo = (LinearLayout) findViewById(R.id.linearLayout);
-                sv.setBackgroundColor(0xFF00ceb6);
+                //sv.setBackgroundColor(0xFF00ceb6);
 
                 lo.addView(addItemToList(0, "PRSL TOM SCE", 2.49));
                 lo.addView(addItemToList(1, "MNMU MUSHROOM", 1.99));

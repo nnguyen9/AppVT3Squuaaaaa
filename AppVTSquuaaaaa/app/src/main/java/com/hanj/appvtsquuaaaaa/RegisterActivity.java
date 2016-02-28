@@ -48,8 +48,10 @@ public class RegisterActivity extends Activity {
             @Override
             public void onClick(View v) {
                 boolean formFilled = true;
+                Log.e("Register Activity", formFilled + ": Should be true");
+
                 if (firstNameText.getText().toString().trim().equals("")) {
-                    firstNameText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
+                    firstNameText.setBackgroundColor(Color.parseColor("#50FF0000"));
                     formFilled = false;
                 }
                 else
@@ -57,16 +59,15 @@ public class RegisterActivity extends Activity {
                     firstNameText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
                 }
                 if (lastNameText.getText().toString().trim().equals("")) {
-                    lastNameText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
-                    formFilled = false;
-                }
+                    lastNameText.setBackgroundColor(Color.parseColor("#50FF0000"));
+                    formFilled = false;          }
                 else
                 {
                     lastNameText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
                 }
                 if (phoneText.getText().toString().trim().equals("") || phoneText.getText().length() < 10) {
                     formFilled = false;
-                    phoneText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
+                    phoneText.setBackgroundColor(Color.parseColor("#50FF0000"));
                 }
                 else
                 {
@@ -74,7 +75,7 @@ public class RegisterActivity extends Activity {
                 }
                 if (capIDText.getText().toString().trim().equals("")) {
                     formFilled = false;
-                    capIDText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
+                    capIDText.setBackgroundColor(Color.parseColor("#50FF0000"));
                 }
                 else
                 {
@@ -83,14 +84,14 @@ public class RegisterActivity extends Activity {
 
                 if (passwordText.getText().toString().trim().equals("") || confirmPasswordText.getText().toString().trim().equals("")) {
                     formFilled = false;
-                    passwordText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
-                    confirmPasswordText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
+                    passwordText.setBackgroundColor(Color.parseColor("#50FF0000"));
+                    confirmPasswordText.setBackgroundColor(Color.parseColor("#50FF0000"));
 
                 }
-                else if (!passwordText.equals(confirmPasswordText)) {
+                else if (!passwordText.getText().toString().equals(confirmPasswordText.getText().toString())) {
                     formFilled = false;
                     passwordText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
-                    confirmPasswordText.setBackgroundColor(Color.parseColor("#FF00FFE1"));
+                    confirmPasswordText.setBackgroundColor(Color.parseColor("#50FF0000"));
                 }
                 else {
                     passwordText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
