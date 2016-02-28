@@ -29,8 +29,8 @@ import android.widget.TextView;
  * Created by Jinwoo on 2/27/2016.
  */
 public class ItemlistActivity extends Activity {
-    int numberOfPeople = 13;    // whatever number of items
-    int numberOfItem = 15;
+    int numberOfPeople = 3;    // whatever number of items
+    int numberOfItem = 4;
     LinearLayout lo;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class ItemlistActivity extends Activity {
 
         ScrollView sv = (ScrollView) findViewById(R.id.scrollView);
         lo = (LinearLayout) findViewById(R.id.linearLayout);
+        sv.setBackgroundColor(0xFF00ceb6);
 
         for (int i = 0; i < numberOfItem; i++)               // adding i number of items on the list\
             lo.addView(addItemToList(i, "Item" + i, 9.99));
@@ -52,29 +53,37 @@ public class ItemlistActivity extends Activity {
         HorizontalScrollView itemSlot = new HorizontalScrollView(this);     // Creating Horizontal scroll view
         itemSlot.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        LinearLayout slotContent = new LinearLayout(this);                  // Creating a Horizontal layout
-        slotContent.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        slotContent.setGravity(Gravity.CENTER_VERTICAL);
-        slotContent.setOrientation(LinearLayout.HORIZONTAL);
-        itemSlot.addView(slotContent);
+
 
         if(n == -1) {                                   // submit btn
+            RelativeLayout relativeLayout = new RelativeLayout(this);
+            relativeLayout.setVerticalGravity(Gravity.CENTER_HORIZONTAL);
+            relativeLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            itemSlot.addView(relativeLayout);
+
             Button btn = new Button(this);
             btn.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             btn.setBackgroundColor(Color.GREEN);
+            btn.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             btn.setText(item);
-            slotContent.addView(btn);
+            relativeLayout.addView(btn);
         }
         else {                                          // items btn
+            LinearLayout slotContent = new LinearLayout(this);                  // Creating a Horizontal layout
+            slotContent.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            slotContent.setGravity(Gravity.CENTER_VERTICAL);
+            slotContent.setOrientation(LinearLayout.HORIZONTAL);
+            itemSlot.addView(slotContent);
 
-            LinearLayout.LayoutParams lop = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            lop.gravity= Gravity.CENTER_VERTICAL;
+
             TextView itemName = new TextView(this);
-            itemName.setLayoutParams(lop);
+            itemName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            itemName.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             itemName.setText(item + ": ");
 
             TextView itemPrice = new TextView(this);
-            itemPrice.setLayoutParams(lop);
+            itemPrice.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            itemPrice.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
             itemPrice.setText("$" + price);
 
             slotContent.addView(itemName);                         // adding item name and price
