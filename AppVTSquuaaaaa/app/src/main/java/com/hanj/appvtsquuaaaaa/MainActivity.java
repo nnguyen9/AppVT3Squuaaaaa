@@ -89,7 +89,7 @@ public class MainActivity extends Activity {
                 LocalProfile.setNameLast(user.getLast_name());
                 LocalProfile.setPhone(user.getPhone());
                 LocalProfile.saveSettings();
-                startActivity(new Intent(getApplicationContext(), ItemlistActivity.class));
+                startActivity(new Intent(getApplicationContext(), CameraActivity.class));
             }
         }
     }

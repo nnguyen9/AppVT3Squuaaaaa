@@ -19,15 +19,20 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".HomeActivity"></activity>
-        <activity android:name=".ItemlistActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".ItemlistActivity" />
+        <activity
+            android:name=".CameraActivity"
+            android:label="@string/title_activity_camera"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
 
 </manifest>

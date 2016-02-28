@@ -42,7 +42,7 @@ import retrofit.http.GET;
  */
 public class ItemlistActivity extends Activity implements View.OnClickListener {
     int numberOfPeople = 3;    // whatever number of items
-    int numberOfItem = 4;
+    int numberOfItem = 13;
     int submitId;
     LinearLayout lo;
     ArrayList<RowItems> rowItemses;
@@ -262,8 +262,19 @@ public class ItemlistActivity extends Activity implements View.OnClickListener {
                 lo = (LinearLayout) findViewById(R.id.linearLayout);
                 sv.setBackgroundColor(0xFF00ceb6);
 
-                for (int i = 0; i < numberOfItem; i++)               // adding i number of items on the list\
-                    lo.addView(addItemToList(i, "Item" + i, 9.99));
+                lo.addView(addItemToList(0, "PRSL TOM SCE", 2.49));
+                lo.addView(addItemToList(1, "MNMU MUSHROOM", 1.99));
+                lo.addView(addItemToList(2, "VENUS SHAVE GEL", 2.99));
+                lo.addView(addItemToList(3, "STO CHICKEN BROTH", 1.99));
+                lo.addView(addItemToList(4, "STN VEG CHIPS", 2.99));
+                lo.addView(addItemToList(5, "TYSN BLK BL/SL BRS", 3.30));
+                lo.addView(addItemToList(6, "SCKY SALMON", 5.17));
+                lo.addView(addItemToList(7, "ASPARAGUS", 3.68));
+                lo.addView(addItemToList(8, "ROMA TOMATO", 0.43));
+                lo.addView(addItemToList(9, "BNJR ICE CRM", 3.49));
+                lo.addView(addItemToList(10, "SQUASH ZUCCH", 1.23));
+                lo.addView(addItemToList(11, "TOP ROUND STEAK", 2.76));
+                lo.addView(addItemToList(12, "PRSL SPAGHETTI", 1.89));
 
                 lo.addView(addItemToList(-1, "Submit", 9.99));      // adding a submit button
 
