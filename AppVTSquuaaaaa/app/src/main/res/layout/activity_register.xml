@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@mipmap/background">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ScrollView01"
@@ -11,10 +12,10 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
+            android:adjustViewBounds="true"
             android:layout_width="match_parent"
-            android:layout_height="529dp"
-            android:clickable="false"
-            android:background="#00ceb6">
+            android:layout_height="match_parent"
+            android:clickable="false">
 
             <EditText
                 android:layout_width="wrap_content"
@@ -101,15 +102,11 @@
                 android:layout_alignEnd="@+id/firstNameText"
                 android:layout_marginTop="5dp" />
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="D I V I T"
+                android:src="@mipmap/logo"
                 android:id="@+id/textView"
-                android:textStyle="bold"
-                android:textSize="70dp"
-                android:textColor="#000000"
                 android:layout_marginTop="39dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />

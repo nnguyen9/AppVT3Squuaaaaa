@@ -29,7 +29,7 @@ public class DivitServerAccess {
         // Turn on logging for the http calls in retrofit
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         // set your desired log level to body
-        logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient();
         // add your other interceptors …
         // add logging as last interceptor
