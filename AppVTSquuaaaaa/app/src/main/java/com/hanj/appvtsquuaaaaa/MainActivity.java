@@ -1,58 +1,40 @@
 package com.hanj.appvtsquuaaaaa;
 
 import android.app.Activity;
-<<<<<<< HEAD
 import android.content.Intent;
-=======
->>>>>>> refs/remotes/origin/master
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends Activity {
+        private Button loginButton;
+        private EditText id;
+        private EditText pw;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_home);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
+            id = (EditText)findViewById(R.id.numberEditText);
+            pw = (EditText)findViewById(R.id.pwordEditText);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+            loginButton = (Button) findViewById(R.id.logInButton);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    boolean wrongID = (id.getText().toString().trim().length() != 10);
+                    boolean wrongPW = (pw.getText().toString().trim().equals(""));
+                    if(wrongID)
+                        id.setBackgroundColor(Color.RED);
+                    if(wrongPW)
+                        pw.setBackgroundColor(Color.RED);
+                    if(!wrongID && !wrongPW)
+                        startActivity(new Intent(getApplicationContext(), ItemlistActivity.class));
+                }
+            });
         }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

@@ -38,46 +38,46 @@ public class RegisterActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (firstNameText.getText().toString().trim().equals("")) {
-                    firstNameText.setBackgroundColor(Color.BLUE);
+                    firstNameText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
                 }
                 else
                 {
-                    firstNameText.setBackgroundColor(Color.parseColor("#8B0000"));
+                    firstNameText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
                 }
                 if (lastNameText.getText().toString().trim().equals("")) {
-                    lastNameText.setBackgroundColor(Color.BLUE);
+                    lastNameText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
                 }
                 else
                 {
-                    lastNameText.setBackgroundColor(Color.parseColor("#8B0000"));
+                    lastNameText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
                 }
                 if (phoneText.getText().toString().trim().equals("") || phoneText.getText().length() < 10) {
-                    phoneText.setBackgroundColor(Color.BLUE);
+                    phoneText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
                 }
                 else
                 {
-                    phoneText.setBackgroundColor(Color.parseColor("#8B0000"));
+                    phoneText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
                 }
                 if (capIDText.getText().toString().trim().equals("")) {
-                    capIDText.setBackgroundColor(Color.BLUE);
+                    capIDText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
                 }
                 else
                 {
-                    capIDText.setBackgroundColor(Color.parseColor("#8B0000"));
+                    capIDText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
                 }
 
                 if (passwordText.getText().toString().trim().equals("") || confirmPasswordText.getText().toString().trim().equals("")) {
-                    passwordText.setBackgroundColor(Color.BLUE);
-                    confirmPasswordText.setBackgroundColor(Color.BLUE);
+                    passwordText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
+                    confirmPasswordText.setBackgroundColor(Color.parseColor("#FFB1F7EF"));
 
                 }
                 else if (passwordText != confirmPasswordText) {
-                    passwordText.setBackgroundColor(Color.parseColor("#8B0000"));
-                    confirmPasswordText.setBackgroundColor(Color.CYAN);
+                    passwordText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
+                    confirmPasswordText.setBackgroundColor(Color.parseColor("#FF00FFE1"));
                 }
                 else {
-                    passwordText.setBackgroundColor(Color.parseColor("#8B0000"));
-                    confirmPasswordText.setBackgroundColor(Color.parseColor("#8B0000"));
+                    passwordText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
+                    confirmPasswordText.setBackgroundColor(Color.parseColor("#FF00ceb6"));
                 }
             }
         });
