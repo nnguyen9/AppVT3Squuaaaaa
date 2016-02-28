@@ -9,7 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+<<<<<<< HEAD
         android:text="BAD ASS TITLE"
+=======
+        android:text="D i v i t"
+>>>>>>> 5a8d28f544b345c824a904aeddbba662fb2bbd5a
         android:id="@+id/titleText"
         android:layout_marginTop="118dp"
         android:layout_alignParentTop="true"
@@ -35,6 +39,7 @@
         android:ems="10"
         android:id="@+id/numberEditText"
         android:hint="Phone Number"
+        android:maxLength="10"
         android:textSize="20dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -49,5 +54,12 @@
         android:layout_below="@+id/numberEditText"
         android:layout_alignStart="@+id/numberEditText"
         android:textSize="20dp" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_alignTop="@+id/numberEditText"
+        android:layout_alignStart="@+id/numberEditText" />
 
 </RelativeLayout>
