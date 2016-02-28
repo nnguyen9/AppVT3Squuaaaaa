@@ -57,7 +57,7 @@ class UsersController < ApplicationController
 	end
 
 	# 'Pays' the bill and requests money from all participants
-	# POST /{phone}/processBills
+	# POST users/{phone}/processBills
 	def processBills
 		@user = User.find_by_phone(params[:id])
 		@bills = params[:bills]
@@ -90,6 +90,8 @@ class UsersController < ApplicationController
 				http = Net::HTTP.new(uri.host, uri.port)
 				response = http.request(request)
 				@body = JSON.parse(response.body)
+
+				MessageMailer::messageParticipant(bill, @user, @part).deliver_now
 
 				render :json => {:body => "Participants messaged!"}, :status => 200
 			end
