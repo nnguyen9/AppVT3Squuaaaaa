@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 	# Authenticates and finds the user with the information
 	def self.authenticate(phone, password)
 	  @user = User.find_by_phone(phone)
-	  if user && User.validatePassword(password, user.password_hash)
+	  if @user && User.validatePassword(password, user.password_hash)
 	  	@user
 	  else
 	  	nil
