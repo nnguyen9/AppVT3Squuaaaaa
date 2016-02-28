@@ -4,12 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-<<<<<<< HEAD
-=======
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
->>>>>>> 5a8d28f544b345c824a904aeddbba662fb2bbd5a
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
